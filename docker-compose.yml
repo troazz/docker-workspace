@@ -51,10 +51,10 @@ services:
         - ./etc/my.cnf:/etc/mysql/my.cnf
 
   mail:
-    image: mail
+    image: digiplant/fake-smtp
     container_name: smtp
     restart: ${MAIL_RESTART}
     volumes:
-      - ./data/mail:/output
+      - ./data/email:/var/mail
     ports:
       - "${MAIL_PORT}:25"
