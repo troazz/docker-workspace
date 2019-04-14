@@ -13,7 +13,6 @@ services:
     command: /bin/sh -c "nginx -g 'daemon off;'"
     restart: ${NGINX_RESTART}
     depends_on:
-      - mysqldb
       - php
       - php5
 
