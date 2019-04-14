@@ -1,4 +1,4 @@
-# localhost
+# localhost with PHP7
 server {
     listen 80;
     server_name localhost;
@@ -30,7 +30,39 @@ server {
     }
 }
 
-# SSL locahost
+# localhost with PHP5
+server {
+    listen 80;
+    server_name localhost5;
+    client_max_body_size 108M;
+    index index.php index.html;
+
+    error_log  /var/log/nginx/error.log;
+    access_log /var/log/nginx/access.log;
+    root /application;
+
+    location / {
+        try_files $uri $uri/ /index.php?$query_string;
+    }
+
+    location ~ \.php$ {
+        fastcgi_index index.php;
+        fastcgi_param SCRIPT_FILENAME $document_root$fastcgi_script_name;
+        fastcgi_param PATH_INFO $fastcgi_path_info;
+        include fastcgi_params;
+        fastcgi_pass php5:9000;
+    }
+
+    location ~ /\.ht {
+        deny all;
+    }
+
+    location ~ /.well-known {
+        allow all;
+    }
+}
+
+# SSL
 server {
     listen 443 ssl;
     server_name locahost;
