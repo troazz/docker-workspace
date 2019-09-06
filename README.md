@@ -14,3 +14,4 @@
 5. Create your vhost in this path *./etc/nginx/*, for example create this file *./etc/nginx/vhost.conf*. You can copy some vhost in this file *./etc/nginx/vhost.conf.example*
 6. All set! Run docker `docker-compose up`
 7. Wait until the process is done, and Voila!
+8. Congratulation
