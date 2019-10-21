@@ -23,7 +23,7 @@ services:
     restart: ${PHP_RESTART}
     volumes:
       - ./web:/application
-      - ./etc/php/php.ini:/etc/php5/fpm/conf.d/99-overrides.ini
+      - ./etc/php/php.ini:/etc/php/7.3/fpm/conf.d/99-overrides.ini
 
   php5:
     build: ./containers/php5

@@ -110,10 +110,10 @@ server {
 
     error_log  /application/cr3-live/tmp/logs/error.log;
     access_log /application/cr3-live/tmp/logs/access.log;
-    root /application/cr3-live/docroot;
+    root /application/cr3-live;
 
     location / {
-        try_files $uri $uri/ /index.php?$query_string;
+        try_files $uri /docroot/$uri /docroot/index.php?$query_string;
     }
 
     location ~ \.php$ {
@@ -150,6 +150,67 @@ server {
 
     location /lib {
         alias /application/cr3-live/lib;
+    }
+
+    location ~ /\.ht {
+        deny all;
+    }
+
+    location ~ /.well-known {
+        allow all;
+    }
+}
+
+# CR-MNSCU
+server {
+    listen 80;
+    server_name cr3-mnscu;
+    client_max_body_size 108M;
+    index index.php index.html;
+
+    error_log  /application/cr3-mnscu/tmp/logs/error.log;
+    access_log /application/cr3-mnscu/tmp/logs/access.log;
+    root /application/cr3-mnscu;
+
+    location / {
+        try_files $uri /docroot/$uri /docroot/index.php?$query_string;
+    }
+
+    location ~ \.php$ {
+        fastcgi_index index.php;
+        fastcgi_param SCRIPT_FILENAME $document_root$fastcgi_script_name;
+        fastcgi_param PATH_INFO $fastcgi_path_info;
+        include fastcgi_params;
+        fastcgi_pass php5:9000;
+        fastcgi_read_timeout 1200;
+    }
+
+    location /app {
+        alias /application/cr3-mnscu/application;
+    }
+
+    location /cad_js {
+        alias /application/cr3-mnscu/lib/Scripts;
+    }
+
+    location /ssoview {
+        alias /application/cr3-mnscu/lib/Tools/simplesamlphp/rschool/sso-client-lib/www;
+    }
+
+    location /samlrschool {
+        alias /application/cr3-mnscu/lib/Tools/simplesamlphp/rschool/sso-client-lib/libraries/simplesamlphp/www;
+    }
+
+    location /yui {
+        alias /application/cr3-mnscu/lib/Scripts/Yui/build;
+    }
+
+    location /cad_clients {
+        alias /application/cr3-mnscu/clients;
+    }
+
+    location /lib {
+        alias /application/cr3-mnscu/lib;
     }
 
     location ~ /\.ht {
